@@ -1,0 +1,30 @@
+html {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+/*.bloque {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}*/
+
+#paris, #londres {
+  counter-reset: pregunta;
+}
+
+.pregunta, .respuesta {
+  display: inline-block;
+}
+
+.bloque::before {
+  counter-increment: pregunta;
+  content: counter(pregunta) ". ";
+}
+
+[data-valor="true"]::before {
+  content: "V";
+  display: inline;
+}
+
+[data-valor="false"]::before {
+  content: "F";
+}

@@ -1,0 +1,31 @@
+html {
+  font-family: 'Droid Serif', serif;
+}
+
+.bloque {
+  background-color: whitesmoke;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  box-shadow: 6px 6px 3px slategray;
+}
+
+#paris, #londres {
+  counter-reset: pregunta;
+}
+
+.bloque::before {
+  counter-increment: pregunta;
+  content: "Pregunta " counter(pregunta);
+}
+
+[data-valor="true"]::before {
+  content: "Verdadero";
+}
+
+[data-valor="false"]::before {
+  content: "Falso";
+}
