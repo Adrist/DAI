@@ -1,0 +1,36 @@
+<dom-module id="descripcion-wiki">
+  <script>
+    class DescripcionWikipedia extends Polymer.Element {
+      static get is() { return "descripcion-wikipedia"; }
+      static get properties() {
+        return {
+          tema: String,
+          descripcion: {
+            type: String,
+            notify: true
+          }
+        }
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        var componente = this;
+        fetch('https://es.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&continue&titles=' + componente.tema)
+        .then(function(response) {
+          if(!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response.json();
+        })
+        .then(function(responseAsJson) {
+          for (var page in responseAsJson.query.pages) {
+            componente.descripcion += responseAsJson.query.pages[page].extract;
+          }
+        })
+        .catch(function(error) {
+          console.log('Ha habido un problema: \n', error);
+        });
+      }
+    }
+    customElements.define(DescripcionWikipedia.is, DescripcionWikipedia);
+  </script>
+</dom-module>

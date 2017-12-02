@@ -1,0 +1,50 @@
+<dom-module id="imagen-flickr">
+  <script>
+    class ImagenFlickr extends Polymer.Element {
+      static get is() { return "imagen-flickr"; }
+      static get properties() {
+        return {
+          tema: String,
+          url: {
+            type: String,
+            notify: true
+          }
+        };
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        var componente = this;
+        fetch('https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=8098bd8f4e4081e0c8fbf98f62418a89&text=' + componente.tema + '&format=json&per_page=10&media=photos&sort=relevance&nojsoncallback=1')
+        .then(function(response) {
+          if(!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response.json();
+        })
+        .then(function(responseAsJson) {
+          var id = responseAsJson.photos.photo[0].id;
+          fetch('https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=8098bd8f4e4081e0c8fbf98f62418a89&photo_id=' + id + '&format=json&nojsoncallback=1')
+          .then(function(response) {
+            if(!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response.json();
+          })
+          .then(function(responseAsJson){
+            return responseAsJson.sizes.size[0].source;
+          })
+          .then(function(url) {
+             componente.url = url;
+          })
+          .catch(function(error) {
+            console.log('Ha habido un problema: \n', error);
+          });
+        })
+        .catch(function(error) {
+          console.log('Ha habido un problema: \n', error);
+        });
+      }
+    }
+    customElements.define(ImagenFlickr.is, ImagenFlickr);
+  </script>
+</dom-module>

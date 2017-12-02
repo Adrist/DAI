@@ -1,0 +1,62 @@
+<html>
+<link rel="import"  href="https://polygit.org/components/polymer/polymer-element.html"></link>
+<link rel="import" href="descripcion-wikipedia.html"></link>
+<link rel="import" href="imagen-flickr.html"></link>
+
+<dom-module id="encabezado-cuestionario">
+  <template>
+    <imagen-flickr tema ="{{tema}}" url="{{url}}"></imagen-flickr>
+    <descripcion-wikipedia tema="{{tema}}" descripcion="{{descripcion}}"></descripcion-wikipedia>
+    <style>
+      h2 {
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      .icono {
+        vertical-align: text-top;
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: lightgray;
+      }
+
+      .wiki {
+        font-size: 90%;
+      }
+    </style>
+    <h2>
+      <img class="icono" src="{{url}}" />
+      Cuestionario sobre [[tema]]
+    </h2>
+    <div class="wiki">[[descripcion]]</div>
+  </template>
+
+  <script>
+    class EncabezadoCuestionario extends Polymer.Element {
+      static get is() { return "encabezado-cuestionario"; }
+      static get properties() {
+        return {
+          tema: {
+            type: String,
+            value: "..."
+          },
+          url: {
+            type: String,
+            value: "https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57723/globe_east_540.jpg",
+            notify: true
+          },
+          descripcion: {
+            type: String,
+            value: "",
+            notify: true
+          }
+        };
+      }
+    }
+    customElements.define(EncabezadoCuestionario.is, EncabezadoCuestionario);
+  </script>
+</dom-module>
+</html>
